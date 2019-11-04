@@ -1,0 +1,35 @@
+host: localhost
+
+storageClass: hostpath
+
+webapp:
+  distributed:
+    image: nexusjpl/nexus-webapp:distributed.0.1.0
+    driver:
+      cores: 1
+      coreLimit: "1200m"
+      memory: "512m"
+    executor:
+      cores: 1
+      instances: 2
+      memory: "512m"
+  singleNode:
+    image: nexusjpl/nexus-webapp:standalone.1.0.0-rc1
+    requests:
+      cpu: 1 
+      memory: "4Gi"
+    limits:
+      cpu: 1
+      memory: "4Gi"
+
+cassandra:
+  replicas: 1
+  storage: 13Gi
+
+solr:
+  replicas: 1
+  storage: 10Gi
+
+
+ingress:
+  namespace: ingress-nginx-local

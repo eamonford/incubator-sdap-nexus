@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-webapp
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8083
+    name: webapp
+  selector:
+    app: nexus-webapp
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nexus-webapp
+  name: nexus-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexus-webapp
+  template:
+    metadata:
+      labels:
+        app: nexus-webapp
+    spec:
+      containers:
+      - image: {{ .Values.webapp.singleNode.image }}
+        imagePullPolicy: Always
+        name: nexus-webapp
+        env:
+          - name: CASSANDRA_CONTACT_POINTS
+            value: sdap-cassandra
+          - name: CASSANDRA_PORT 
+            value: "9042"
+          - name: CASSANDRA_LOCAL_DATACENTER
+            value: datacenter1
+          - name: SOLR_URL_PORT
+            value: sdap-solr:8983
+          - name: MASTER
+            value: local[2]
+          - name: PYSPARK_SUBMIT_ARGS
+            value: "--conf spark.default.parallelism=6 pyspark-shell"
+          - name: MAX_PROCESSES
+            value: "4"
+          - name: TORNADO_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SPARK_LOCAL_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: {{ .Values.webapp.singleNode.requests.cpu }}
+            memory: {{ .Values.webapp.singleNode.requests.memory }}
+          limits:
+            cpu: {{ .Values.webapp.singleNode.limits.cpu }}
+            memory: {{ .Values.webapp.singleNode.limits.memory }}
+      restartPolicy: Always

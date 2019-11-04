@@ -206,14 +206,11 @@ if __name__ == "__main__":
     for clazzWrapper in NexusHandler.AVAILABLE_HANDLERS:
         if issubclass(clazzWrapper.clazz(), NexusHandler.SparkHandler):
             if spark_context is None:
-                from pyspark import SparkContext, SparkConf
+                from pyspark import SparkConf
+                from pyspark.sql import SparkSession
 
-                # Configure Spark
-                sp_conf = SparkConf()
-                sp_conf.setAppName("nexus-analysis")
-                sp_conf.set("spark.scheduler.mode", "FAIR")
-                sp_conf.set("spark.executor.memory", "6g")
-                spark_context = SparkContext(conf=sp_conf)
+                spark = SparkSession.builder.appName("nexus-analysis").getOrCreate()
+                spark_context = spark.sparkContext
 
             handlers.append(
                 (clazzWrapper.path(), ModularNexusHandlerWrapper,
