@@ -57,11 +57,11 @@ spec:
           name: cql
         resources:
           requests:
-            cpu: "1.5"
-            memory: "5Gi"
+            cpu: {{ .Values.cassandra.requests.cpu }}
+            memory: {{ .Values.cassandra.requests.memory }}
           limits:
-            cpu: "1.5"
-            memory: "5Gi"
+            cpu: {{ .Values.cassandra.limits.cpu }}
+            memory: {{ .Values.cassandra.limits.memory }}
         securityContext:
           capabilities:
             add:
@@ -93,7 +93,7 @@ spec:
       name: cassandra-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "{{ .Values.storageClass }}"
+      storageClassName: {{ .Values.storageClass }}
       resources:
         requests:
           storage: {{ .Values.cassandra.storage }}

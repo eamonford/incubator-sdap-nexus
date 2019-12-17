@@ -16,20 +16,36 @@ webapp:
   singleNode:
     image: nexusjpl/nexus-webapp:standalone.1.0.0-rc1
     requests:
-      cpu: 1 
-      memory: "4Gi"
+      cpu: "0.5" 
+      memory: "1Gi"
     limits:
       cpu: 1
-      memory: "4Gi"
+      memory: "1Gi"
 
 cassandra:
-  replicas: 1
+  replicas: 2
   storage: 13Gi
+  requests:
+    cpu: 1
+    memory: 3Gi
+  limits:
+    cpu: 1
+    memory: 3Gi
 
 solr:
-  replicas: 1
+  replicas: 2
   storage: 10Gi
+  heap: 4g
+  requests:
+    memory: 5Gi
+    cpu: 1 
+  limits:
+    memory: 5Gi
+    cpu: 1
 
+zookeeper:
+  replicas: 2
+  storage: 8Gi
 
 ingress:
   namespace: ingress-nginx-local
