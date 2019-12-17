@@ -73,8 +73,8 @@ spec:
         image: "k8s.gcr.io/kubernetes-zookeeper:1.0-3.4.10"
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "0.5"
+            memory: {{ .Values.zookeeper.memory }}
+            cpu: {{ .Values.zookeeper.cpu }}
         ports:
         - containerPort: 2181
           name: client
