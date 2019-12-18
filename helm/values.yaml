@@ -51,3 +51,5 @@ zookeeper:
 
 ingress:
   namespace: ingress-nginx-local
+
+onEarthProxyIP: ""

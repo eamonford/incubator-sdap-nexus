@@ -27,3 +27,10 @@ spec:
         backend:
           serviceName: nexus-webapp-spark
           servicePort: webapp
+      {{ if ne .Values.onEarthProxyIP "" }}
+      - path: /onearth/?(.*)
+        backend:
+          serviceName: onearth
+          servicePort: 80
+      {{ end }}
+      
