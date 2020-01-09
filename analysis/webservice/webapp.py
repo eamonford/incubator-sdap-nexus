@@ -20,7 +20,6 @@ import json
 import logging
 import sys
 import traceback
-from multiprocessing.pool import ThreadPool
 
 import matplotlib
 import pkg_resources
