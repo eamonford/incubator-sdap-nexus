@@ -47,14 +47,14 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def initialize(self, thread_pool):
         self.logger = logging.getLogger('nexus')
-        self.request_thread_pool = thread_pool
+        self.executor = thread_pool
 
-    @tornado.web.asynchronous
+    @tornado.gen.coroutine
     def get(self):
-
         self.logger.info("Received request %s" % self._request_summary())
-        self.request_thread_pool.apply_async(self.run)
+        yield self.run()
 
+    @tornado.concurrent.run_on_executor
     def run(self):
         reqObject = NexusRequestObject(self)
         try:
@@ -80,7 +80,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.finish()
 
     def async_callback(self, result):
-        self.finish()
+        pass
 
     ''' Override me for standard handlers! '''
 
@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     max_request_threads = webconfig.getint("global", "server.max_simultaneous_requests")
     log.info("Initializing request ThreadPool to %s" % max_request_threads)
-    request_thread_pool = ThreadPool(processes=max_request_threads)
+    request_thread_pool = tornado.concurrent.futures.ThreadPoolExecutor(max_request_threads)
 
     spark_context = None
     for clazzWrapper in NexusHandler.AVAILABLE_HANDLERS:
