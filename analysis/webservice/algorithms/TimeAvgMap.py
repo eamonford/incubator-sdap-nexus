@@ -15,9 +15,9 @@
 
 
 # distutils: include_dirs = /usr/local/lib/python2.7/site-packages/cassandra
-import pyximport
+# import pyximport
 
-pyximport.install()
+# pyximport.install()
 
 import sys
 import numpy as np

@@ -23,7 +23,7 @@ ARG CONDA_DIR="/opt/conda"
 
 ENV PYTHONPATH=${PYTHONPATH}:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.7-src.zip:/opt/spark/python/lib/pyspark.zip/python:/usr/lib \
     NEXUS_SRC=/tmp/incubator-sdap-nexus \
-    PROJ_LIB=/opt/conda/share/proj	\
+    PROJ_LIB=/opt/conda/lib/python2.7/site-packages/pyproj/data	\
     PATH="$CONDA_DIR/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \
     PYSPARK_DRIVER_PYTHON=/opt/conda/bin/python \
@@ -87,9 +87,6 @@ RUN echo "**** install dev packages ****" && \
 
 # Conda dependencies for nexus
 RUN conda install python=2.7
-RUN conda install -c conda-forge -y netCDF4 backports.functools_lru_cache=1.3 && \
-    conda install -y numpy cython mpld3 scipy basemap gdal matplotlib python-dateutil=2.6.1 && \
-    pip install shapely==1.5.16 cassandra-driver==3.5.0
 RUN cd /usr/lib && ln -s libcom_err.so.2 libcom_err.so.3 && \ 
     cd /opt/conda/lib && \
     ln -s libnetcdf.so.11 libnetcdf.so.7 && \
