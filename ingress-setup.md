@@ -1,7 +1,7 @@
 # ELB and ingress controller setup (for system admins)
 
 ## 0. Prerequisites
-1. `aws-login-pub.py` script is installed, and you authenticated in a master role
+1. `aws-login-pub.py` script is installed, and you are authenticated in a master role
 2. SSL cert created
 3. ELB security group created
 
