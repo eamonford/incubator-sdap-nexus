@@ -45,6 +45,11 @@ controller:
     namespace: nexus-$ENV 
   kind: DaemonSet
   service:
+    # Include this if you want to restrict access to the load balancer
+    loadBalancerSourceRanges:
+      - 137.78.0.0/16
+      - 137.79.0.0/16
+      - 128.149.0.0/16
     targetPorts:
       http: http
       https: http
