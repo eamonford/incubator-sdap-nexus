@@ -7,18 +7,11 @@ webapp:
       cores: 1
       coreLimit: "1200m"
       memory: "512m"
-      tolerations:
-      - key: Key
-        operator: Exists
-        effect: NoSchedule    
     executor:
       cores: 1
       instances: 2
       memory: "512m"
-      tolerations:
-        - key: Key
-          operator: Exists
-          effect: NoSchedule    
+
 cassandra:
   replicas: 2
   storage: 13Gi
