@@ -18,7 +18,7 @@ spec:
     onSubmissionFailureRetryInterval: 10
   driver:
 {{ .Values.webapp.distributed.driver | toYaml | indent 4 }}
-      labels:
+    labels:
       version: 2.4.4
     serviceAccount: spark-serviceaccount
   executor:
