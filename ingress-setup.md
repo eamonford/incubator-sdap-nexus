@@ -1,20 +1,16 @@
-# ELB and ingress controller setup (for system admins)
+# AWS ELB and ingress controller setup (for system admins)
 
 ## 0. Prerequisites
 1. `aws-login-pub.py` script is installed, and you are authenticated in a master role
 2. SSL cert created
 3. ELB security group created
 
-## 1. Make sure Helm 2 is installed
+## 1. Make sure Helm is installed
 Check if whether Helm is installed by running `helm version`. The response should look something like this:
 ```
-Client: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
-Server: &version.Version{SemVer:"v2.16.1", GitCommit:"bbdfe5e7803a12bbdf97e94cd847859890cf4050", GitTreeState:"clean"}
+version.BuildInfo{Version:"v3.1.1", GitCommit:"afe70585407b420d0097d07b21c47dc511525ac8", GitTreeState:"clean", GoVersion:"go1.13.8"}
 ```
-If this is not the case, follow the guide for installing Helm 2 on EKS: https://eksworkshop.com/beginner/060_helm/helm_intro/install. Note: this guide assumes you have root access. If you are not root, run this before following the guide in order to do a user-local install:
-```
-export USE_SUDO=false && export HELM_INSTALL_DIR=/home/$USER/bin
-```
+If this is not the case, follow the guide for installing Helm on EKS: https://eksworkshop.com/beginner/060_helm/helm_intro/install. 
 
 ## 2. Create the ingress namespace and the Nexus namespace
 You will need to create two namespaces: one for the ELB and ingress controller, and one for Nexus. The ingress namespace should follow the format `ingress-<environment>`, e.g. `ingress-sit` for the SIT environment. Similarly, the Nexus namespace should follow `nexus-<environment>`, e.g. `nexus-sit`. 
@@ -30,7 +26,7 @@ kubectl create namespace nexus-$ENV
 Before installing the `nginx-ingress` Helm chart, you will need to create a yaml file with the desired configuration values for the ELB and the ingress controller. Find the ARN of the desired SSL certificate to use for the ELB, and the ID of the load balancer security group you want to use, and run the following: 
 ```
 export ARN=<arn>
-export SG=<security group ID
+export SG=<security group ID>
 ```
 `<arn>` and `<security group ID>` should be replaced by the appropriate values, e.g. `arn:aws:acm:us-west-2:012345678912:certificate/2a67b6b9-eb8d-48e8-a88b-297b1a32f343` and `sg-037d227ba1e23eb43`, respectively.
 
