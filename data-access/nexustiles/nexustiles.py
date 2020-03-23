@@ -219,7 +219,7 @@ class NexusTileService(object):
                                  **kwargs):
         tiles = self.find_tiles_in_box(min_lat, max_lat, min_lon, max_lon, ds, start_time, end_time, **kwargs)
         tiles = self.mask_tiles_to_bbox(min_lat, max_lat, min_lon, max_lon, tiles)
-        if 0 < start_time <= end_time:
+        if 0 <= start_time <= end_time:
             tiles = self.mask_tiles_to_time_range(start_time, end_time, tiles)
 
         return tiles
@@ -227,7 +227,7 @@ class NexusTileService(object):
     def get_tiles_bounded_by_polygon(self, polygon, ds=None, start_time=0, end_time=-1, **kwargs):
         tiles = self.find_tiles_in_polygon(polygon, ds, start_time, end_time, **kwargs)
         tiles = self.mask_tiles_to_polygon(polygon, tiles)
-        if 0 < start_time <= end_time:
+        if 0 <= start_time <= end_time:
             tiles = self.mask_tiles_to_time_range(start_time, end_time, tiles)
 
         return tiles
@@ -362,7 +362,7 @@ class NexusTileService(object):
         :param tiles: List of tiles
         :return: A list tiles with data masked to specified time range
         """
-        if 0 < start_time <= end_time:
+        if 0 <= start_time <= end_time:
             for tile in tiles:
                 tile.times = ma.masked_outside(tile.times, start_time, end_time)
 
