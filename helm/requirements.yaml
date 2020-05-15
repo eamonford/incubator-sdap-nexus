@@ -3,5 +3,7 @@ dependencies:
     version: 1.28.2
     repository: https://kubernetes-charts.storage.googleapis.com
     condition: ingressEnabled
-  
+  - name: rabbitmq
+    version: 6.25.7
+    repository: https://charts.bitnami.com/bitnami
 

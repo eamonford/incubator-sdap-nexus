@@ -19,6 +19,14 @@ webapp:
       instances: 2
       memory: "512m"
 
+ingester:
+  dataHostPath: /Users/edford/Desktop/ingestion_test
+  dataMountPath: /data
+  collection:
+  granule:
+    image: nexusjpl/ningester2:latest
+
+
 cassandra:
   replicas: 2
   storage: 13Gi
@@ -63,3 +71,7 @@ nginx-ingress:
       type: LoadBalancer
   defaultBackend:
     enabled: false
+
+rabbitmq:
+  username: guest
+  password: guest
